@@ -1,4 +1,5 @@
 from __future__ import print_function, division
+import numpy as np
 import pandas as pd
 import torch
 from torch.utils.data import Dataset
@@ -9,14 +10,11 @@ class EcgSignalDataset(Dataset):
         self.data = arr[:, :-1]
         self.label = arr[:, -1].astype("int")
 
-    def __len(self):
+    def __len__(self):
         return len(self.label)
 
     def __getitem__(self, idx):
         if torch.is_tensor(idx):
             idx = idx.tolist()
-        sample = {
-            "data": self.data,
-            "label": self.label
-        }
-        return sample
+        tmp_data = np.array([self.data[idx]])
+        return tmp_data, self.label[idx]
