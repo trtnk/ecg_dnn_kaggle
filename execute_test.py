@@ -14,10 +14,10 @@ import argparse
 
 import torch
 import torch.utils.data as data
-from sklearn.metrics import classification_report
+from sklearn.metrics import classification_report, confusion_matrix
 
 from EcgSignalDataset import EcgSignalDataset
-from EcgSignalCNN import EcgSignalCNN
+from EcgSignalCNN import EcgSignalCNN, EcgSignalCNN2
 import network_tools
 
 # create parser
@@ -39,7 +39,8 @@ test_dataset = EcgSignalDataset(f"{csv_file_path}/{file_base_name}_test.csv")
 test_dataloader = data.DataLoader(test_dataset, batch_size=batch_size, shuffle=False)
 
 # load trained model
-net = EcgSignalCNN()
+#net = EcgSignalCNN()
+net = EcgSignalCNN2()
 net.load_state_dict(torch.load(model_path))
 
 # test
@@ -47,5 +48,6 @@ net.load_state_dict(torch.load(model_path))
 predicted_labels, correct_labels = network_tools.test_model(net, test_dataloader)
 class_names = ['N', 'S', 'V', 'F', 'Q']
 print(classification_report(correct_labels, predicted_labels, target_names=class_names))
+print(confusion_matrix(correct_labels, predicted_labels))
 ## each classes accuracy
 network_tools.test_model_each_class(net, test_dataloader, 5)

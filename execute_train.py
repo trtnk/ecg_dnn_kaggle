@@ -18,7 +18,7 @@ import torch.optim as optim
 import torch.utils.data as data
 
 from EcgSignalDataset import EcgSignalDataset
-from EcgSignalCNN import EcgSignalCNN
+from EcgSignalCNN import EcgSignalCNN, EcgSignalCNN2
 import network_tools
 
 # create parser
@@ -50,7 +50,8 @@ dataloader_dict = {
 }
 
 # network
-net = EcgSignalCNN()
+#net = EcgSignalCNN()
+net = EcgSignalCNN2()
 
 # define loss function
 criterion = nn.CrossEntropyLoss()
